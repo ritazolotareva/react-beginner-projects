@@ -33,17 +33,19 @@ function Result() {
   );
 }
 
-function Game({question}) {
+function Game({step, question, onClickVariant}) {
+  const percentage = Math.round((step / questions.length) * 100)
+
   return (
     <>
       <div className="progress">
-        <div style={{ width: '50%' }} className="progress__inner"></div>
+        <div style={{ width: `${percentage}%` }} className="progress__inner"></div>
       </div>
       <h1>{question.title}</h1>
       <ul>
         {
-          question.variants.map((text) => (
-          <li key ={text}>{text}</li>
+          question.variants.map((text, index) => (
+          <li onClick={() => onClickVariant(index)} key ={text}>{text}</li>
           ))}
       </ul>
     </>
@@ -54,9 +56,13 @@ function App() {
   const [step, setStep] = React.useState(0);
   const question = questions[step];
 
+  const onClickVariant = (index) => {
+    setStep(step + 1)
+  }
+
   return (
     <div className="App">
-      <Game question = {question} />
+      <Game step={step} question = {question} onClickVariant = {onClickVariant}/>
       {/* <Result /> */}
     </div>
   );

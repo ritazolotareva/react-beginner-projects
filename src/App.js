@@ -6,9 +6,21 @@ import { Users } from './components/Users';
 // Тут список пользователей: https://reqres.in/api/users
 
 function App() {
+  const [users, setUsers] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('https://reqres.in/api/users').then(res => res.json()).then(json => {
+      setUsers(json.data);
+    }).catch(err => {
+      console.warn(err);
+      alert('Error of getting user')
+    })
+  }, []);
+
   return (
     <div className="App">
-      <Users />
+      <Users isLoading/>
+      {/* <Success /> */}
     </div>
   );
 }
